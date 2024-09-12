@@ -1,0 +1,8 @@
+.DS_store
+Library/
+Packages/
+Logs/
+*.unitypackage
+Temp/
+UserSettings/
+
