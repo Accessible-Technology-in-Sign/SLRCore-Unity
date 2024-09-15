@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Mediapipe.Unity;
+using UnityEngine;
 
 public interface CameraI<T, U>
 {
@@ -13,8 +13,9 @@ public interface CameraI<T, U>
 
 public class CameraIProperties
 {
+    //camera selector
     public bool enableISO = false;
-    // camera selector
+
     public int preferredWidth = 1280;
     public ImageSource.ResolutionStruct[] prefereredResolutions = {
         new(512, 512, 0),
@@ -23,33 +24,35 @@ public class CameraIProperties
     };
 }
 
-public class WebCameraI : CameraI<string, string> {
-    private WebCamSource webcamSource;
+public class WebCameraI : CameraI<string, string>
+{
+    private WebCamTexture webCamTexture = new WebCamTexture();
+    Renderer renderer = GetComponent<Renderer>();
+    renderer.material.mainTexture = webCamTexture;
 
-    public WebCameraI(CameraIProperties properties) {
-        webcamSource = new WebCamSource(properties.preferredWidth, properties.prefereredResolutions);
-    }
-    
     protected Dictionary<string, Action<string>> callbacks = new();
 
-    public void AddCallback(string name, Action<string> callback) {
+    public void AddCallback(string name, Action<string> callback)
+    {
         callbacks.Add(name, callback);
     }
 
-    public void RemoveCallback(string name) { 
+    public void RemoveCallback(string name)
+    {
         if (callbacks.ContainsKey(name)) callbacks.Remove(name);
     }
 
-    public void poll() {
-        webcamSource.Play();
-        if (!webcamSource.isPlaying) {
-            throw new Exception("Cannot get camera to play");
+    public void poll()
+    {
+        webCamTexture.Play();
+        if (!webCamTexture.isPlaying)
+        {
+            throw new Exception("The camera is not playing.")
         }
-        // TODO check if required: WaitForEndOfFrame
-        
     }
 
-    public void pause() {
-        webcamSource.Pause();
+    public void pause()
+    {
+        webCamTexture.pause();
     }
 }
