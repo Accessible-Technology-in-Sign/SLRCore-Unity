@@ -20,26 +20,8 @@ public class SLRTfLiteModel<T> : TfLiteModelManager<T>
         this.mapping = mapping;
     }
 
-	private T RunModel(float[] data)
+	public T RunModel(float[] data)
     {
-		// if (allData.Count < maxFrames)
-        // {
-		// 	var middleData = allData[allData.Count / 2];
-		// 	int middleDataIndex = allData.Count / 2;
-		// 	int framesToAdd = maxFrames - allData.Count;
-		// 	for (int i = 0; i < framesToAdd; i++) {
-		// 		allData.Insert(middleDataIndex, middleData);
-		// 	}
-        // }
-
-		// for(int frameNumber = 0; frameNumber < maxFrames; frameNumber++)
-        // {
-		// 	for(int mediapipevalue = 0; mediapipevalue < inputSize; mediapipevalue++)
-        //     {
-		// 		data[0, frameNumber, mediapipevalue, 0] = allData[frameNumber][mediapipevalue];
-        //     }
-        // }
-
 		interpreter.SetInputTensorData(0, data);
 		interpreter.Invoke();
 		interpreter.GetOutputTensorData(0, modelOutputTensor.AsSpan());
@@ -58,7 +40,7 @@ public class SLRTfLiteModel<T> : TfLiteModelManager<T>
 				idx = i;
 			}
 		}
-        Debug.Log(mapping[idx]);
+        Debug.Log("model output: " + mapping[idx]);
 		return mapping[idx];
 	}
 }

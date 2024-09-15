@@ -19,6 +19,11 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
 
     public readonly HandLandmarkDetectionConfig config = new HandLandmarkDetectionConfig();
 
+    public SimpleSLR engine;
+    void Awake()
+    {
+      engine = GetComponent<SimpleSLR>();
+    }
     public override void Stop()
     {
       base.Stop();
@@ -35,10 +40,10 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
       Debug.Log($"MinHandPresenceConfidence = {config.MinHandPresenceConfidence}");
       Debug.Log($"MinTrackingConfidence = {config.MinTrackingConfidence}");
 
-      yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
+      // yield return AssetLoader.PrepareAssetAsync(config.ModelPath);
 
       var options = config.GetHandLandmarkerOptions(config.RunningMode == Tasks.Vision.Core.RunningMode.LIVE_STREAM ? OnHandLandmarkDetectionOutput : null);
-      taskApi = HandLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
+      // taskApi = HandLandmarker.CreateFromOptions(options, GpuManager.GpuResources);
       var imageSource = ImageSourceProvider.ImageSource;
 
       yield return imageSource.Play();
@@ -65,7 +70,7 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
 
       AsyncGPUReadbackRequest req = default;
       var waitUntilReqDone = new WaitUntil(() => req.done);
-      var result = HandLandmarkerResult.Alloc(options.numHands);
+      // var result = HandLandmarkerResult.Alloc(options.numHands);
 
       // NOTE: we can share the GL context of the render thread with MediaPipe (for now, only on Android)
       var canUseGpuImage = options.baseOptions.delegateCase == Tasks.Core.BaseOptions.Delegate.GPU &&
@@ -105,35 +110,36 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
             break;
           }
           image = textureFrame.BuildCPUImage();
+          engine.posePredictor.Single(image, (int) (Time.time * 1000));
           textureFrame.Release();
         }
 
-        switch (taskApi.runningMode)
-        {
-          case Tasks.Vision.Core.RunningMode.IMAGE:
-            if (taskApi.TryDetect(image, imageProcessingOptions, ref result))
-            {
-              _handLandmarkerResultAnnotationController.DrawNow(result);
-            }
-            else
-            {
-              _handLandmarkerResultAnnotationController.DrawNow(default);
-            }
-            break;
-          case Tasks.Vision.Core.RunningMode.VIDEO:
-            if (taskApi.TryDetectForVideo(image, GetCurrentTimestampMillisec(), imageProcessingOptions, ref result))
-            {
-              _handLandmarkerResultAnnotationController.DrawNow(result);
-            }
-            else
-            {
-              _handLandmarkerResultAnnotationController.DrawNow(default);
-            }
-            break;
-          case Tasks.Vision.Core.RunningMode.LIVE_STREAM:
-            taskApi.DetectAsync(image, GetCurrentTimestampMillisec(), imageProcessingOptions);
-            break;
-        }
+        // switch (taskApi.runningMode)
+        // {
+        //   case Tasks.Vision.Core.RunningMode.IMAGE:
+        //     if (taskApi.TryDetect(image, imageProcessingOptions, ref result))
+        //     {
+        //       _handLandmarkerResultAnnotationController.DrawNow(result);
+        //     }
+        //     else
+        //     {
+        //       _handLandmarkerResultAnnotationController.DrawNow(default);
+        //     }
+        //     break;
+        //   case Tasks.Vision.Core.RunningMode.VIDEO:
+        //     if (taskApi.TryDetectForVideo(image, GetCurrentTimestampMillisec(), imageProcessingOptions, ref result))
+        //     {
+        //       _handLandmarkerResultAnnotationController.DrawNow(result);
+        //     }
+        //     else
+        //     {
+        //       _handLandmarkerResultAnnotationController.DrawNow(default);
+        //     }
+        //     break;
+        //   case Tasks.Vision.Core.RunningMode.LIVE_STREAM:
+        //     taskApi.DetectAsync(image, GetCurrentTimestampMillisec(), imageProcessingOptions);
+        //     break;
+        // }
       }
     }
 

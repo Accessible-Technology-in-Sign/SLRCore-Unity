@@ -5,4 +5,6 @@ Logs/
 *.unitypackage
 Temp/
 UserSettings/
-
+Build/
+*.csproj
+obj/
