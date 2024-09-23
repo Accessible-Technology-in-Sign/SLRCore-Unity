@@ -346,9 +346,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 53940934}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c8026620d7954e1cbe5ef208c3125a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 54cf364d70dee4bf1864f355afa05655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  img: {fileID: 1466522774}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,6 +702,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b085c374a6772aba491e20d7d9d980db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  annotation: {fileID: 0}
+  _visualizeZ: 0
+--- !u!114 &1466522774 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3259285889726014649, guid: 5713b959e3c77a58fb258133fc8e4aef, type: 3}
+  m_PrefabInstance: {fileID: 1466522769}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1541723260
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,6 +790,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba3c50c2cb46dc9e916dd3a33c8a488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _annotationPrefab: {fileID: 0}
+  _leftLandmarkColor: {r: 0, g: 1, b: 0, a: 1}
+  _rightLandmarkColor: {r: 0, g: 1, b: 0, a: 1}
+  _landmarkRadius: 15
+  _connectionColor: {r: 1, g: 1, b: 1, a: 1}
+  _connectionWidth: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -23,33 +23,40 @@ public class CameraIProperties
     };
 }
 
-public class WebCameraI : CameraI<string, string> {
+public class WebCameraI : CameraI<string, string>
+{
     private WebCamSource webcamSource;
 
-    public WebCameraI(CameraIProperties properties) {
+    public WebCameraI(CameraIProperties properties)
+    {
         webcamSource = new WebCamSource(properties.preferredWidth, properties.prefereredResolutions);
     }
-    
+
     protected Dictionary<string, Action<string>> callbacks = new();
 
-    public void AddCallback(string name, Action<string> callback) {
+    public void AddCallback(string name, Action<string> callback)
+    {
         callbacks.Add(name, callback);
     }
 
-    public void RemoveCallback(string name) { 
+    public void RemoveCallback(string name)
+    {
         if (callbacks.ContainsKey(name)) callbacks.Remove(name);
     }
 
-    public void poll() {
+    public void poll()
+    {
         webcamSource.Play();
-        if (!webcamSource.isPlaying) {
+        if (!webcamSource.isPlaying)
+        {
             throw new Exception("Cannot get camera to play");
         }
         // TODO check if required: WaitForEndOfFrame
-        
+
     }
 
-    public void pause() {
+    public void pause()
+    {
         webcamSource.Pause();
     }
 }
