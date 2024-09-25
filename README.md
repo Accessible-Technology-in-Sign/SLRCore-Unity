@@ -30,8 +30,8 @@ Getting started with the toolkit is relatively simple, but there are a few thing
 
 ## Step 2: Clone the repo.
 
--This is pretty simple. Clone this repo using either GitHub Desktop (https://github.com/apps/desktop) or the Terminal or Command Line.
--In Unity Hub, select Add -> Add Project from Disk and navigate to where you cloned the SLRCore-Unity repo to. You can now use the toolkit locally.
+- This is pretty simple. Clone this repo using either GitHub Desktop (https://github.com/apps/desktop) or the Terminal or Command Line.
+- In Unity Hub, select Add -> Add Project from Disk and navigate to where you cloned the SLRCore-Unity repo to. You can now use the toolkit locally.
 
 ## Step 3: Download the necessary packages.
 
