@@ -25,6 +25,7 @@ public class CameraIProperties {
         new(640, 480, 0),
         new(1280, 720, 0),
     };
+    //TODO: implement correct version of ImageSource resolution once I have clarification
 
 }
 
