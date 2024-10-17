@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,18 @@ using UnityEngine.UI;
 using Mediapipe;
 using Mediapipe.Tasks.Vision.HandLandmarker;
 using Mediapipe.Unity;
+using Model;
 using TMPro;
+using Image = Mediapipe.Image;
 using RunningMode = Mediapipe.Tasks.Vision.Core.RunningMode;
 
 public class SimpleSLR : MonoBehaviour
 {
+    
+
+    [SerializeField] private Preview.UnityMPHandPreviewPainter screen;
+    [SerializeField] private Camera.StreamCamera camera;
+
     private SLRTfLiteModel<string> recognizer;
     private Buffer<HandLandmarkerResult> buffer;
     public MediapipeHandModelManager posePredictor;
@@ -53,12 +61,17 @@ public class SimpleSLR : MonoBehaviour
         }
 
 
-        recognizer = new SLRTfLiteModel<string>(_modelFile, mapping);
+        recognizer = new SLRTfLiteModel<string>(_modelFile, new List<string>(mapping));
         posePredictor = new MediapipeHandModelManager(_mediapipeGraph.bytes, RunningMode.LIVE_STREAM);
 
         posePredictor.AddCallback("buffer", result =>
         {
             buffer.AddElement(result.Result);
+            screen.UpdateLandmarks(result.Result);
+            if (result.Image != null)
+                screen.UpdateImage(result.Image);
+            else
+                Debug.Log("Got null image");
         });
         buffer.AddCallback("trigger", bufferedResults =>
         {
@@ -113,14 +126,17 @@ public class SimpleSLR : MonoBehaviour
                 bool updated = true;
 
                 Debug.Log("Fingerspell: Running");
-                string translation = recognizer.RunModel(inputArray.ToArray());
-                lastTranslation = translation;
-
-                Debug.Log(translation);
+                recognizer.RunModel(inputArray.ToArray());
 
             }
-
+            buffer.Clear();
         });
+        recognizer.AddCallback("default", (translation) => {
+            lastTranslation = translation;
+            Debug.Log(translation);
+        });
+        
+        camera.AddCallback("default", (image => posePredictor.Single(image, (int) (Time.time * 1000))));
 
     }
 
