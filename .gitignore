@@ -8,3 +8,5 @@ UserSettings/
 Build/
 *.csproj
 obj/
+TextMesh Pro/
+TextMesh Pro.*

@@ -59,7 +59,7 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
       _textureFramePool = new Experimental.TextureFramePool(imageSource.textureWidth, imageSource.textureHeight, TextureFormat.RGBA32, 10);
 
       // NOTE: The screen will be resized later, keeping the aspect ratio.
-      screen.Initialize(imageSource);
+      // screen.Initialize(imageSource);
 
       SetupAnnotationController(_handLandmarkerResultAnnotationController, imageSource);
 
@@ -110,9 +110,10 @@ namespace Mediapipe.Unity.Sample.HandLandmarkDetection
             break;
           }
           image = textureFrame.BuildCPUImage();
-          engine.posePredictor.Single(image, (int) (Time.time * 1000));
-          textureFrame.Release();
         }
+        
+        // engine.posePredictor.Single(image, (int) (Time.time * 1000));
+        textureFrame.Release();
 
         // switch (taskApi.runningMode)
         // {
