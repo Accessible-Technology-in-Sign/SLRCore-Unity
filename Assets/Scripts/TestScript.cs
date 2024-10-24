@@ -21,7 +21,11 @@ public class SimpleSLR : MonoBehaviour
     [SerializeField] private bool _isInterpolating;
     [SerializeField] private TextMeshProUGUI output;
     [SerializeField] private Button trigger;
-    private string lastTranslation = "";
+    [SerializeField] private string lastTranslation = "";
+
+    public string getLastTranslation() {
+        return lastTranslation;
+    }
 
     private class Config
     {
